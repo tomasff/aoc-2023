@@ -4,7 +4,7 @@ const MAX_ALLOWED_RED: u32 = 12;
 const MAX_ALLOWED_GREEN: u32 = 13;
 const MAX_ALLOWED_BLUE: u32 = 14;
 
-fn parse_game<'input>(input: &'input str) -> impl Iterator<Item = (u32, (u32, u32, u32))> + 'input {
+fn parse_games<'input>(input: &'input str) -> impl Iterator<Item = (u32, (u32, u32, u32))> + 'input {
     input
         .lines()
         .map(|game| game.split_once(":").expect("Invalid game!"))
@@ -33,7 +33,7 @@ fn parse_game<'input>(input: &'input str) -> impl Iterator<Item = (u32, (u32, u3
 }
 
 fn solve_part_one(input: &str) -> u32 {
-    parse_game(input)
+    parse_games(input)
         .filter(|(_, (r, g, b))| {
             *r <= MAX_ALLOWED_RED && *g <= MAX_ALLOWED_GREEN && *b <= MAX_ALLOWED_BLUE
         })
@@ -42,7 +42,7 @@ fn solve_part_one(input: &str) -> u32 {
 }
 
 fn solve_part_two(input: &str) -> u32 {
-    parse_game(input).map(|(_, (r, g, b))| r * g * b).sum()
+    parse_games(input).map(|(_, (r, g, b))| r * g * b).sum()
 }
 
 pub fn solve(input: &str) -> (Option<u32>, Option<u32>) {
