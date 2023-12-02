@@ -4,21 +4,23 @@ const MAX_ALLOWED_RED: u32 = 12;
 const MAX_ALLOWED_GREEN: u32 = 13;
 const MAX_ALLOWED_BLUE: u32 = 14;
 
-fn parse_games<'input>(input: &'input str) -> impl Iterator<Item = (u32, (u32, u32, u32))> + 'input {
+fn parse_games<'input>(
+    input: &'input str,
+) -> impl Iterator<Item = (u32, (u32, u32, u32))> + 'input {
     input
         .lines()
-        .map(|game| game.split_once(":").expect("Invalid game!"))
+        .map(|game| game.split_once(":").expect("Invalid game."))
         .map(|(name, runs)| {
             (
                 name.split_once(" ")
-                    .and_then(|(_, id)| id.parse::<u32>().ok())
+                    .and_then(|(_, id)| id.parse().ok())
                     .expect("Invalid game ID!"),
                 runs.split(";")
                     .flat_map(|run| {
                         run.split(",")
-                            .map(|cubes| cubes.trim().split_once(" ").expect("Invalid game"))
+                            .map(|cubes| cubes.trim().split_once(" ").expect("Invalid game runs."))
                     })
-                    .map(|(count, color)| (count.parse::<u32>().expect("Invalid count"), color))
+                    .map(|(count, color)| (count.parse().expect("Invalid cube count."), color))
                     .fold(
                         (0, 0, 0),
                         |(max_r, max_g, max_b), (count, color)| match color {
