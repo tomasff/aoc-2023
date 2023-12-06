@@ -1,6 +1,7 @@
 use std::fs;
 
 mod day_one;
+mod day_six;
 mod day_two;
 
 use clap::Parser;
@@ -24,6 +25,7 @@ fn main() {
     let parts = match args.day {
         1 => day_one::solve(&contents),
         2 => day_two::solve(&contents),
+        6 => day_six::solve(&contents),
         _ => (None, None),
     };
 
