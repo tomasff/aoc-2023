@@ -1,24 +1,22 @@
 use std::cmp::max;
 
-const MAX_ALLOWED_RED: u32 = 12;
-const MAX_ALLOWED_GREEN: u32 = 13;
-const MAX_ALLOWED_BLUE: u32 = 14;
+const MAX_ALLOWED_RED: i64 = 12;
+const MAX_ALLOWED_GREEN: i64 = 13;
+const MAX_ALLOWED_BLUE: i64 = 14;
 
-fn parse_games<'input>(
-    input: &'input str,
-) -> impl Iterator<Item = (u32, (u32, u32, u32))> + 'input {
+fn parse_games(input: &str) -> impl Iterator<Item = (i64, (i64, i64, i64))> + '_ {
     input
         .lines()
-        .map(|game| game.split_once(":").expect("Invalid game."))
+        .map(|game| game.split_once(':').expect("Invalid game."))
         .map(|(name, runs)| {
             (
-                name.split_once(" ")
+                name.split_once(' ')
                     .and_then(|(_, id)| id.parse().ok())
                     .expect("Invalid game ID!"),
-                runs.split(";")
+                runs.split(';')
                     .flat_map(|run| {
-                        run.split(",")
-                            .map(|cubes| cubes.trim().split_once(" ").expect("Invalid game runs."))
+                        run.split(',')
+                            .map(|cubes| cubes.trim().split_once(' ').expect("Invalid game runs."))
                     })
                     .map(|(count, color)| (count.parse().expect("Invalid cube count."), color))
                     .fold(
@@ -34,7 +32,7 @@ fn parse_games<'input>(
         })
 }
 
-fn solve_part_one(input: &str) -> u32 {
+fn solve_part_one(input: &str) -> i64 {
     parse_games(input)
         .filter(|(_, (r, g, b))| {
             *r <= MAX_ALLOWED_RED && *g <= MAX_ALLOWED_GREEN && *b <= MAX_ALLOWED_BLUE
@@ -43,10 +41,10 @@ fn solve_part_one(input: &str) -> u32 {
         .sum()
 }
 
-fn solve_part_two(input: &str) -> u32 {
+fn solve_part_two(input: &str) -> i64 {
     parse_games(input).map(|(_, (r, g, b))| r * g * b).sum()
 }
 
-pub fn solve(input: &str) -> (Option<u32>, Option<u32>) {
-    (Some(solve_part_one(input)), Some(solve_part_two(input)))
+pub fn solve(input: &str) -> (i64, i64) {
+    (solve_part_one(input), solve_part_two(input))
 }

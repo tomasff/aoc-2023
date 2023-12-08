@@ -1,10 +1,10 @@
-fn count_race_solutions(time: f64, distance: f64) -> u32 {
+fn count_race_solutions(time: f64, distance: f64) -> i64 {
     let sq = (time * time - 4.0 * distance).sqrt() / 2.0;
 
-    ((time / 2.0 + sq).ceil() - (time / 2.0 - sq).floor()) as u32 - 1
+    ((time / 2.0 + sq).ceil() - (time / 2.0 - sq).floor()) as i64 - 1
 }
 
-fn solve_part_one(input: &str) -> u32 {
+fn solve_part_one(input: &str) -> i64 {
     input
         .split_once('\n')
         .map(|(times, distances)| {
@@ -22,7 +22,7 @@ fn solve_part_one(input: &str) -> u32 {
         .expect("Invalid puzzle input.")
 }
 
-fn solve_part_two(input: &str) -> u32 {
+fn solve_part_two(input: &str) -> i64 {
     input
         .split_once('\n')
         .map(|(times, distances)| {
@@ -45,6 +45,6 @@ fn solve_part_two(input: &str) -> u32 {
         .expect("Invalid puzzle input.")
 }
 
-pub fn solve(input: &str) -> (Option<u32>, Option<u32>) {
-    (Some(solve_part_one(input)), Some(solve_part_two(input)))
+pub fn solve(input: &str) -> (i64, i64) {
+    (solve_part_one(input), solve_part_two(input))
 }

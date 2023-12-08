@@ -1,4 +1,4 @@
-const DIGIT_MAPPING: &'static [(&str, u32)] = &[
+const DIGIT_MAPPING: &[(&str, i64)] = &[
     ("one", 1),
     ("two", 2),
     ("three", 3),
@@ -19,7 +19,7 @@ const DIGIT_MAPPING: &'static [(&str, u32)] = &[
     ("9", 9),
 ];
 
-fn recover_calibration(calibration: &str) -> u32 {
+fn recover_calibration(calibration: &str) -> i64 {
     let first_digit = calibration
         .chars()
         .find(char::is_ascii_digit)
@@ -31,10 +31,10 @@ fn recover_calibration(calibration: &str) -> u32 {
         .and_then(|c| c.to_digit(10))
         .expect("Found no valid digits!");
 
-    first_digit * 10 + last_digit
+    (first_digit * 10 + last_digit).into()
 }
 
-fn recover_corrected_calibration(calibration: &str) -> u32 {
+fn recover_corrected_calibration(calibration: &str) -> i64 {
     let first_digit = DIGIT_MAPPING
         .iter()
         .filter_map(|(prefix, digit)| calibration.find(prefix).map(|index| (index, digit)))
@@ -52,9 +52,9 @@ fn recover_corrected_calibration(calibration: &str) -> u32 {
     first_digit * 10 + last_digit
 }
 
-pub fn solve(input: &String) -> (Option<u32>, Option<u32>) {
+pub fn solve(input: &str) -> (i64, i64) {
     (
-        Some(input.lines().map(recover_calibration).sum()),
-        Some(input.lines().map(recover_corrected_calibration).sum()),
+        input.lines().map(recover_calibration).sum(),
+        input.lines().map(recover_corrected_calibration).sum(),
     )
 }
